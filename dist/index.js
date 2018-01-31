@@ -72,13 +72,21 @@ app.post("/add-contact", function (req, res) {
 		contacts.addContact(contact);
 		contacts.save();
 	}).then(function () {
-		res.write("Successfully saved contact: " + contact.name);
+		res.send("Successfully saved contact: " + contact.name);
 		res.end();
 	}).catch(function (err) {
 		res.status(500).send(err);
 	});
 });
+app.get('/all-contacts', function (req, res) {
+	// res.send('I am here');
+	return contacts.load().then(function () {
+		console.log(contacts);
+		// console.log(contacts["list"]);
 
+		res.send(JSON.stringify(contacts.list));
+	});
+});
 // http
 // .createServer((req, res) => {
 // 	// log the incoming request
@@ -126,17 +134,17 @@ app.post("/add-contact", function (req, res) {
 // 				res.end();
 // 			})
 // 	    });
-// 	} 
-// 	else if(req.url === '/all-contacts'){
-// 		return contacts.load()
-// 		.then(()=> {
-// 			console.log(contacts);
-// 			// console.log(contacts["list"]);
-
-// 			res.write(JSON.stringify(contacts.list));
-
-// 			res.end();
-// 		})
+// 	}
+// else if(req.url === '/all-contacts'){
+// 	return contacts.load()
+// 	.then(()=> {
+// 		console.log(contacts);
+// 		// console.log(contacts["list"]);
+//
+// 		res.write(JSON.stringify(contacts.list));
+//
+// 		res.end();
+// 	})
 // 		.catch(err => {
 // 			console.log(err);
 // 			res.statusCode = 500;

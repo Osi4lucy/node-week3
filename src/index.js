@@ -55,14 +55,23 @@ app.post("/add-contact", (req, res) => {
 		contacts.save();
 	})
 	.then(() => {
-		res.write(`Successfully saved contact: ${ contact.name }`);
+		res.send(`Successfully saved contact: ${ contact.name }`);
 		res.end();
 	})
 	.catch((err) => {
 		res.status(500).send(err);
 	})
 });
+app.get('/all-contacts', (req, res ) => {
+	// res.send('I am here');
+		return contacts.load()
+		.then(()=> {
+			console.log(contacts);
+			// console.log(contacts["list"]);
 
+			res.send(JSON.stringify(contacts.list));
+		})
+ })
 // http
 // .createServer((req, res) => {
 // 	// log the incoming request
@@ -110,17 +119,17 @@ app.post("/add-contact", (req, res) => {
 // 				res.end();
 // 			})
 // 	    });
-// 	} 
-// 	else if(req.url === '/all-contacts'){
-// 		return contacts.load()
-// 		.then(()=> {
-// 			console.log(contacts);
-// 			// console.log(contacts["list"]);
-
-// 			res.write(JSON.stringify(contacts.list));
-			
-// 			res.end();
-// 		})
+// 	}
+	// else if(req.url === '/all-contacts'){
+	// 	return contacts.load()
+	// 	.then(()=> {
+	// 		console.log(contacts);
+	// 		// console.log(contacts["list"]);
+  //
+	// 		res.write(JSON.stringify(contacts.list));
+  //
+	// 		res.end();
+	// 	})
 // 		.catch(err => {
 // 			console.log(err);
 // 			res.statusCode = 500;
